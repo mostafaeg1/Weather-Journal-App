@@ -6,34 +6,31 @@ let baseUrl=`https://api.openweathermap.org/data/2.5/weather?zip=`;
 let d = new Date();
 let newDate = d.getMonth()+'.'+ d.getDate()+'.'+ d.getFullYear();
 
-const postData = async ( url = '', data = {})=>{
+const postData = async ( url = '', data = {}) => {
+  const response = await fetch(url, { 
+          method: 'POST',
+          credentials: 'same-origin', 
+          headers: { 'Content-Type': 'application/json', }, 
+         body: JSON.stringify(data), // body data type must match "Content-Type" header 
+      }); 
+      try { 
+       // console.log(response);  
 
-  const response = await fetch(url, {
-  method: 'POST', 
-  credentials: 'same-origin', 
-  headers: {
-      'Content-Type': 'application/json',
-  },
-  body: JSON.stringify(data), // body data type must match "Content-Type" header        
-});
-
-  try {
-    console.log(response);
-    const newData = await response.json();
-   
-    return newData;
-  }catch(error) {
-   
-  console.log("error", error);
+          const newData = await response.json();
+          
+         // console.log(response);  
+          return newData; 
+      }catch(error) { 
+          console.log("error", error); 
+      }
   }
-};
 
 const getWeather = async (baseURL,zip, key)=>{
     const res = await fetch(`${baseURL}${zip},us&appid=${key}`)
     try {
 
       const data = await res.json();
-      console.log(data);
+     // console.log(data);
       return data;
     }  catch(error) {
       console.log("error", error);
@@ -41,6 +38,18 @@ const getWeather = async (baseURL,zip, key)=>{
     }
   }
   
+  const retrieveData = async (url='') =>{ 
+    const request = await fetch(url);
+    try {
+    // Transform into JSON
+    console.log(request);
+    const allData = await request.json();
+    }
+    catch(error) {
+      console.log("error", error);
+      // appropriately handle the error
+    }
+  };
  
 
 
@@ -55,3 +64,7 @@ const getWeather = async (baseURL,zip, key)=>{
     ()=>postData('/',[1,2,3])
    )
   })
+  
+ // retrieveData('/all');
+ postData('/', [1,2,3]);
+ retrieveData('/');
