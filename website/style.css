@@ -43,41 +43,26 @@ body{
     overflow: scroll;
 }
 
-.holder{
+/* .holder{
 
-}
+} */
 
 .entry{
     background: rgba(59, 74, 107, .4);
 }
 
-#entryHolder{
-}
+/* #entryHolder{
+} */
 
-#date{
-    background-color: blue;
-    border: 1px solid yellow;
+#date,#temp,#content{
+    background-color: whitesmoke;
+    border: 1px solid white;
     padding: 40px;
+    color: black;
+    border-radius: 10px;
 }
 
-#temp{
-background-color: yellow;
-border: 1px solid yellow;
-padding: 40px;
-}
 
-#content{
-    background-color: green;
-    border: 1px solid yellow;
-    padding: 40px;
-}
-
-.headline {
-
-}
-.title{
-
-}
 
 /*  Basic Styling To Override Default For Basic HTML Elements */
 label{

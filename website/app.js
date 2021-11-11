@@ -32,7 +32,6 @@ const postData = async ( url = '', data = {}) => {
 const getWeather = async (baseURL,zip, key)=>{
     const res = await fetch(`${baseURL}${zip},us&appid=${key}`)
     try {
-
       const data = await res.json();
       return data;
     } 
@@ -68,13 +67,12 @@ const getWeather = async (baseURL,zip, key)=>{
     const content = document.getElementById('feelings').value;
    getWeather(baseUrl,newZip,apikey).then(
     function(userData){
-      if(userData.status === 200)
+
+      if(userData.cod === 200)
       postData('/',{date: newDate, temp: userData.main.temp, content });
     else
        alert("please enter a valid zip");
     }).then( (newData) => {
-      // call updateUI to update browser content
-      if(newData != undefined)
       updateUI();
     }).catch((error)=>console.log(error))
   })
@@ -88,9 +86,9 @@ const getWeather = async (baseURL,zip, key)=>{
       // icons.forEach(icon => icon.style.opacity = '1');
       // update new entry values
      // console.log( document.getElementById('temp'));
-      document.getElementById('date').innerHTML = allData.date;
-      document.getElementById('temp').innerHTML = allData.temp;
-      document.getElementById('content').innerHTML = allData.content;
+      document.getElementById('date').innerHTML = `date: ${allData.date}`;
+      document.getElementById('temp').innerHTML = `temp: ${allData.temp}`;
+      document.getElementById('content').innerHTML = `content: ${allData.content}` ;
 
     }
     catch (error) {
