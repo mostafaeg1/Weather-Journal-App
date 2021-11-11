@@ -4,7 +4,7 @@ const apikey="f6dee47ddf4ffcf0e637bc43a6c088ac";
 let baseUrl=`https://api.openweathermap.org/data/2.5/weather?zip=`;
 // Create a new date instance dynamically with JS
 let d = new Date();
-let newDate = d.getMonth()+'.'+ d.getDate()+'.'+ d.getFullYear();
+let newDate = d.getMonth()+1 +'.'+ d.getDate()+'.'+ d.getFullYear();
 
 const postData = async ( url = '', data = {}) => {
   const response = await fetch(url, { 
@@ -87,7 +87,7 @@ const getWeather = async (baseURL,zip, key)=>{
       // update new entry values
      // console.log( document.getElementById('temp'));
       document.getElementById('date').innerHTML = `date: ${allData.date}`;
-      document.getElementById('temp').innerHTML = `temp: ${allData.temp}`;
+      document.getElementById('temp').innerHTML = `temp: ${allData.temp-273} ℃`;
       document.getElementById('content').innerHTML = `content: ${allData.content}` ;
 
     }
