@@ -1,5 +1,5 @@
 /* Global Variables */
-let apikey="f6dee47ddf4ffcf0e637bc43a6c088ac";
+const apikey="f6dee47ddf4ffcf0e637bc43a6c088ac";
 
 let baseUrl=`https://api.openweathermap.org/data/2.5/weather?zip=`;
 // Create a new date instance dynamically with JS
@@ -11,7 +11,11 @@ const postData = async ( url = '', data = {}) => {
           method: 'POST',
           credentials: 'same-origin', 
           headers: { 'Content-Type': 'application/json', }, 
-         body: JSON.stringify(data), // body data type must match "Content-Type" header 
+          body: JSON.stringify({
+            date: data.date,
+            temp: data.temp,
+            content: data.content
+          }) // body data type must match "Content-Type" header 
       }); 
       try { 
        // console.log(response);  
@@ -30,20 +34,21 @@ const getWeather = async (baseURL,zip, key)=>{
     try {
 
       const data = await res.json();
-     // console.log(data);
       return data;
-    }  catch(error) {
-      console.log("error", error);
+    } 
+     catch(error) { 
+       console.log("error", error);
       // appropriately handle the error
     }
+    
   }
   
   const retrieveData = async (url='') =>{ 
     const request = await fetch(url);
     try {
     // Transform into JSON
-    console.log(request);
     const allData = await request.json();
+    return allData;
     }
     catch(error) {
       console.log("error", error);
@@ -55,16 +60,44 @@ const getWeather = async (baseURL,zip, key)=>{
 
 
   let zip=document.getElementById("zip");
-  //console.log(zip.textContent);
   let btn=document.getElementById("generate");
 
-  btn.addEventListener("click",()=>{
-    //console.log("mm");
-   getWeather(baseUrl,zip.value,apikey).then(
-    ()=>postData('/',[1,2,3])
-   )
+  btn.addEventListener("click",(e)=>{
+    e.preventDefault();
+    const newZip = document.getElementById('zip').value;
+    const content = document.getElementById('feelings').value;
+   getWeather(baseUrl,newZip,apikey).then(
+    function(userData){
+      if(userData.status === 200)
+      postData('/',{date: newDate, temp: userData.main.temp, content });
+    else
+       alert("please enter a valid zip");
+    }).then( (newData) => {
+      // call updateUI to update browser content
+      if(newData != undefined)
+      updateUI();
+    }).catch((error)=>console.log(error))
   })
   
+
+   const updateUI = async () => {
+    const request = await fetch('/data');
+    try {
+      const allData = await request.json()
+      // show icons on the page
+      // icons.forEach(icon => icon.style.opacity = '1');
+      // update new entry values
+     // console.log( document.getElementById('temp'));
+      document.getElementById('date').innerHTML = allData.date;
+      document.getElementById('temp').innerHTML = allData.temp;
+      document.getElementById('content').innerHTML = allData.content;
+
+    }
+    catch (error) {
+      console.log("error", error);
+    }
+  };
+  
  // retrieveData('/all');
- postData('/', [1,2,3]);
- retrieveData('/');
+//  postData('/',  {"data": "123"});
+//  retrieveData('/data').then(data => console.log(data))

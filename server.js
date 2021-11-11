@@ -23,8 +23,8 @@ app.use(express.static('website'));
 
 
 
-app.get('/', function (req, res) {
-  console.log("get request");
+app.get('/data', function (req, res) {
+  console.log(projectData);
    res.send(projectData);
 })
 
@@ -34,17 +34,17 @@ app.get('/', function (req, res) {
 //   })
 
   app.post('/', function(req, res) {
-    // projectData['date'] = req.body.date;
-    // projectData['temp'] = req.body.temp;
-    // projectData['content'] = req.body.content;
-    console.log("post request");
+    projectData['date'] = req.body.date;
+    projectData['temp'] = req.body.temp;
+    projectData['content'] = req.body.content;
+    res.send(projectData);
   })
 
 // Setup Server
 
   const port = 8000;
   const server = app.listen(port, listening);
-  
+
   function listening() {
     console.log(`running on localhost: ${port}`);
   };
